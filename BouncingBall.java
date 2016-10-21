@@ -8,11 +8,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import java.awt.event.MouseMotionListener;
-import java.awt.image.BufferedImage;
-import java.util.Date;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -23,6 +19,7 @@ import javax.swing.Timer;
  * @author Huyen
  * 
  */
+@SuppressWarnings("serial")
 public class BouncingBall extends JFrame {
 	private static final int WIDTH = 400;
 	private static final int HEIGHT = 400;
@@ -41,8 +38,11 @@ public class BouncingBall extends JFrame {
 	int leftPaddleHeight = 100;
 	int rightPaddleY;
 	int rightPaddleHeight = 100;
-	// Mouse
-	int mouseX = 0, mouseY = 0;
+
+	//Mouse
+	int mouseX = 0, mouseY =0;
+	int counleft =0,counright=0;
+
 
 	/**
 	 * Constructor
@@ -82,7 +82,9 @@ public class BouncingBall extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// Update ball position
+
+				//Update ball position
+
 				x += xSpeed;
 				y += ySpeed;
 				// Reverse the direction of the ball if it hits the left or
@@ -90,6 +92,11 @@ public class BouncingBall extends JFrame {
 				if (x < 0 || x > WIDTH - size) {
 					xSpeed = -xSpeed;
 					changeBallColor();
+				if(x>WIDTH - size){counleft ++;
+				}
+				if(x<0){counright ++;
+				}
+
 				}
 				// Reverse the direction of the ball if it hits the top or
 				// bottom wall
@@ -148,12 +155,14 @@ public class BouncingBall extends JFrame {
 			g.setColor(Color.BLACK);
 			int leftPaddleX = 0;
 			g.fillRect(leftPaddleX, leftPaddleY, paddleWidth, leftPaddleHeight);
-			// Right Paddle
-			int rightPaddleX = getWidth() - paddleWidth;
-			g.fillRect(rightPaddleX, rightPaddleY, paddleWidth,
-					rightPaddleHeight);
-
 			// Debug
+
+			g.drawString(""+counleft,370,20);
+			//Right Paddle
+			g.drawString(""+counright,20,20);
+			int rightPaddleX = getWidth()-paddleWidth;
+			g.fillRect(rightPaddleX, rightPaddleY, paddleWidth, rightPaddleHeight);
+
 			long duration = System.nanoTime() - start;
 			// System.out.println("Paint in : "+ duration+ " nano seconds");
 		}
